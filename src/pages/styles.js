@@ -1,61 +1,22 @@
 import {RectButton} from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
-  flex: 1;
-  padding: 30px;
-`;
 
-export const Form = styled.View`
-  flex-direction: row;
-  padding-bottom: 20px;
-  border-bottom-width: 1px;
-  border-color: #555;
-`;
 
-export const Input = styled.TextInput.attrs({
-  placeholderTextColor: '#999',
-})`
-  flex: 1;
-  height: 40px;
-  background: #eee;
-  border: 1px solid #888;
-  border-radius: 5px;
-  padding: 0 15px;
-`;
 
-export const SubmitButton = styled(RectButton)`
-  justify-content: center;
-  align-items: center;
-  background: #3498db;
-  margin-left: 10px;
-  padding: 0 12px;
-  opacity: ${props => (props.loading ? 0.7 : 1)};
-`;
 
-export const List = styled.FlatList`
-  margin-top: 20px;
-`;
+
+
+
 
 export const User = styled.View`
   align-items: center;
   margin: 0 20px 30px;
 `;
 
-export const Avatar = styled.Image`
-  width: 64px;
-  height: 64px;
-  border-radius: 32px;
-  background: #eee;
-`;
 
-export const Name = styled.Text`
-  font-size: 14px;
-  color: #333;
-  font-weight: bold;
-  margin-top: 4px;
-  text-align: center;
-`;
+
+
 
 export const Bio = styled.Text.attrs({
   numberOfLines: 2,
@@ -150,5 +111,109 @@ export const Bioperfil = styled.Text`
   line-height: 18px;
   color: #999;
   margin-top: 5px;
+  text-align: center;
+`;
+//33333333333333333333333333333333333333333333333
+
+// styles.js
+
+
+export const Container = styled.View`
+  flex: 1;
+  padding: 20px;
+  background-color: #f5f5f5;
+`;
+
+export const Form = styled.View`
+  flex-direction: row;
+  margin-bottom: 20px;
+`;
+
+export const Input = styled.TextInput`
+  flex: 1;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+`;
+
+export const SubmitButton = styled.TouchableOpacity`
+  background-color: #007bff;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  margin-left: 10px;
+`;
+
+export const List = styled.FlatList``;
+
+export const Card = styled.View`
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Avatar = styled.Image`
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+`;
+
+export const Name = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+`;
+
+export const Status = styled.Text`
+  font-size: 16px;
+  margin-top: 5px;
+`;
+
+export const Species = styled.Text`
+  font-size: 16px;
+  margin-top: 5px;
+`;
+
+export const Gender = styled.Text`
+  font-size: 16px;
+  margin-top: 5px;
+`;
+
+export const Location = styled.Text`
+  font-size: 16px;
+  margin-top: 5px;
+`;
+
+export const FirstEpisode = styled.Text`
+  font-size: 16px;
+  margin-top: 5px;
+`;
+
+export const RemoveButton = styled.TouchableOpacity`
+  margin-top: 10px;
+  background-color: #ff4d4d;
+  padding: 10px;
+  border-radius: 5px;
+`;
+
+export const RemoveButtonText = styled.Text`
+  color: white;
+`;
+
+export const DetailsButton = styled.TouchableOpacity`
+  background: #008CBA;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+`;
+
+export const DetailsButtonText = styled.Text`
+  color: white;
+  font-size: 16px;
   text-align: center;
 `;

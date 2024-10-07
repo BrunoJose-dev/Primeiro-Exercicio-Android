@@ -18,7 +18,7 @@
     "primeiroProjeto4DSM": "file:",
     "react": "18.2.0",
     "react-native": "0.73.5",
-    "react-native-gesture-handler": "^2.15.0",
+    "react-native-gesture-handler": "^2.20.0",
     "react-native-safe-area-context": "^4.9.0",
     "react-native-screens": "^3.29.0",
     "react-native-vector-icons": "^10.0.3",
@@ -40,5 +40,16 @@
   },
   "engines": {
     "node": ">=18"
-  }
+  },
+  "description": "This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BrunoJose-dev"
+  },
+  "keywords": [
+    "460493Brun*"
+  ],
+  "author": "BrunoJose-dev",
+  "license": "ISC"
 }

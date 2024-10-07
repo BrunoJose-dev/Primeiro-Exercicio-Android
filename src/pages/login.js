@@ -15,6 +15,9 @@ const Login = () => {
             alert('E-mail ou senha inválidos!')
         }
     }
+    const handleLogin2 = () => {
+        navigation.navigate('cadastro')
+    }
 
     return (
         <View style={styles.container}>
@@ -32,7 +35,11 @@ const Login = () => {
                 onChangeText={setPassword}
             />
             <TouchableOpacity style={styles.button} onPress={handleLogin} >
-                <Text style={ styles.buttonText }>Entrar</Text>
+                <Text style={ styles.buttonText }>Entre</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.button} onPress={handleLogin2} >
+                <Text style={ styles.buttonText }>Cadastar-se</Text>
             </TouchableOpacity>
         </View>
     )
@@ -55,6 +62,7 @@ const styles = StyleSheet.create({
         width: '80%',
     },
     button: {
+        marginTop: 20,
         backgroundColor: "#3498db",
         borderRadius: 5,
         padding: 10,

@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-import {Keyboard, ActivityIndicator} from 'react-native';
+import React, { Component } from 'react';
+import { Keyboard, ActivityIndicator, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native'; // Importar o hook para navegação
 
 import {
   Container,
@@ -9,90 +10,98 @@ import {
   Input,
   SubmitButton,
   List,
-  User,
+  Card,
   Avatar,
   Name,
-  Bio,
-  ProfileButton,
-  ProfileButtonText,
+  Status,
+  Species,
+  Gender,
+  Location,
+  FirstEpisode,
+  RemoveButton,
+  RemoveButtonText,
+  DetailsButton,
+  DetailsButtonText,
 } from './styles';
 
 import api from '../services/api';
+
 export default class Main extends Component {
   state = {
-    newUser: '',
-    users: [],
+    newCharacterID: '',
+    characters: [],
     loading: false,
-  }; 
+  };
 
   async componentDidMount() {
-    const users = await AsyncStorage.getItem('users');
-    if (users) {
-      this.setState({users: JSON.parse(users)});
+    const characters = await AsyncStorage.getItem('characters');
+    if (characters) {
+      this.setState({ characters: JSON.parse(characters) });
     }
   }
 
   async componentDidUpdate(_, prevState) {
-    const {users} = this.state;
+    const { characters } = this.state;
 
-    if (prevState.users !== users) {
-      await AsyncStorage.setItem('users', JSON.stringify(users));
+    if (prevState.characters !== characters) {
+      await AsyncStorage.setItem('characters', JSON.stringify(characters));
     }
   }
 
-  handleAddUser = async () => {
+  handleAddCharacter = async () => {
     try {
-      const {users, newUser} = this.state;
-      this.setState({loading: true});
+      const { characters, newCharacterID } = this.state;
+      this.setState({ loading: true });
 
-      const response = await api.get(`/users/${newUser}`);
+      const response = await api.get(`/character/${newCharacterID}`);
 
-      if (users.find(user => user.login === response.data.login)) {
-        alert('Usuário já adicionado!');
-        this.setState({
-          loading: false,
-        });
+      if (characters.find(character => character.id === response.data.id)) {
+        alert('Personagem já adicionado!');
+        this.setState({ loading: false });
         return;
       }
 
       const data = {
+        id: response.data.id,
         name: response.data.name,
-        login: response.data.login,
-        bio: response.data.bio,
-        avatar: response.data.avatar_url,
+        status: response.data.status,
+        species: response.data.species,
+        gender: response.data.gender,
+        location: response.data.location.name,
+        firstEpisode: response.data.episode[0],
+        avatar: response.data.image,
       };
 
       this.setState({
-        users: [...users, data],
-        newUser: '',
+        characters: [...characters, data],
+        newCharacterID: '',
         loading: false,
       });
 
       Keyboard.dismiss();
     } catch (error) {
-      alert('Usuário não encontrado!');
-      this.setState({
-        loading: false,
-      });
+      alert('Personagem não encontrado!');
+      this.setState({ loading: false });
     }
   };
 
   render() {
-    const {users, newUser, loading} = this.state;
-    
+    const { characters, newCharacterID, loading } = this.state;
+    const navigation = this.props.navigation; // Recebendo a navegação via props
+
     return (
       <Container>
         <Form>
           <Input
             autoCorrect={false}
             autoCapitalize="none"
-            placeholder="Adicionar usuário"
-            value={newUser}
-            onChangeText={text => this.setState({newUser: text})}
+            placeholder="Adicionar ID do personagem"
+            value={newCharacterID}
+            onChangeText={text => this.setState({ newCharacterID: text })}
             returnKeyType="send"
-            onSubmitEditing={this.handleAddUser}
+            onSubmitEditing={this.handleAddCharacter}
           />
-          <SubmitButton loading={loading} onPress={this.handleAddUser}>
+          <SubmitButton loading={loading} onPress={this.handleAddCharacter}>
             {loading ? (
               <ActivityIndicator color="#fff" />
             ) : (
@@ -100,34 +109,46 @@ export default class Main extends Component {
             )}
           </SubmitButton>
         </Form>
-        <List
-          showsVerticalScrollIndicator={false}
-          data={users}
-          keyExtractor={user => user.login}
-          renderItem={({item}) => (
-            <User>
-              <Avatar source={{uri: item.avatar}} />
-              <Name>{item.name}</Name>
-              <Bio>{item.bio}</Bio>
-
-              <ProfileButton onPress={() => {
-                this.props.navigation.navigate('user', {user: item})
-              }}>
-                <ProfileButtonText>Ver Perfil</ProfileButtonText>
-              </ProfileButton>
-              <ProfileButton
-                onPress={() => {
-                  this.setState({
-                    users: this.state.users.filter(
-                      user => user.login !== item.login,
-                    ),
-                  })
-                }} style={{backgroundColor: '#FFC0CB'}}>
-                <ProfileButtonText>Excluir</ProfileButtonText>
-              </ProfileButton>
-            </User>
-          )}
-        />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <List
+            data={characters}
+            keyExtractor={character => character.id.toString()}
+            renderItem={({ item }) => (
+                <Card>
+                  <Avatar source={{ uri: item.avatar }} />
+                  <Name>{item.name}</Name>
+                  <Status>Status: {item.status}</Status>
+                  <Species>Espécie: {item.species}</Species>
+                  <Gender>Gênero: {item.gender}</Gender>
+                  <Location>Última localização: {item.location}</Location>
+                  <FirstEpisode>Primeiro episódio: {item.firstEpisode}</FirstEpisode>
+              
+                  {/* Botão para Ver Mais Detalhes */}
+                  <DetailsButton
+                    onPress={() => {
+                      // Navegue para a tela Detalhes passando o personagem como parâmetro
+                      this.props.navigation.navigate('Detalhes', { character: item });
+                    }}
+                  >
+                    <DetailsButtonText>Ver Mais Detalhes</DetailsButtonText>
+                  </DetailsButton>
+              
+                  <RemoveButton
+                    onPress={() => {
+                      this.setState({
+                        characters: this.state.characters.filter(
+                          character => character.id !== item.id,
+                        ),
+                      });
+                    }}
+                    style={{ backgroundColor: '#FFC0CB' }}
+                  >
+                    <RemoveButtonText>Excluir</RemoveButtonText>
+                  </RemoveButton>
+                </Card>
+            )}
+          />
+        </ScrollView>
       </Container>
     );
   }

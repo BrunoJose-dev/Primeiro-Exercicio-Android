@@ -5,6 +5,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Main from './pages/main';
 import Login from './pages/login';
 import User from './pages/user';
+import Cadastro from './pages/cadastro';
+import Detalhes from './pages/detalhes';
 
 const Stack = createStackNavigator();
 
@@ -12,11 +14,27 @@ export default function Routes() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+     
           <Stack.Screen
             name="login"
             component={Login}
             options={{
               title: 'LOGIN',
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: '#3498db',
+              },
+              headerTitleStyle: {
+                fontWeight: 'bold',
+                color: '#fff',
+              },
+            }}
+          />
+             <Stack.Screen
+            name="cadastro"
+            component={Cadastro}
+            options={{
+              title: 'CADASTRO',
               headerTitleAlign: 'center',
               headerStyle: {
                 backgroundColor: '#3498db',
@@ -44,6 +62,21 @@ export default function Routes() {
           }}
         />
         <Stack.Screen
+            name="Detalhes"
+            component={Detalhes}
+            options={{
+              title: 'DETALHES',
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: '#3498db',
+              },
+              headerTitleStyle: {
+                fontWeight: 'bold',
+                color: '#fff',
+              },
+            }}
+          />
+        <Stack.Screen
           name="user"
           component={User}
           options={{
@@ -58,6 +91,7 @@ export default function Routes() {
             },
           }}
         />
+         
       </Stack.Navigator>
     </NavigationContainer>
   );
